@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Lista e Studentëve</h1>
+{% for student in students %}
+    <div>{{ student.name }} {{ student.surname }}</div>
+{% empty %}
+    <div>Nuk ka studentë të regjistruar.</div>
+{% endfor %}
+{% endblock %}
