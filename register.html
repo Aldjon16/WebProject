@@ -1,42 +1,11 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends '_auth_form_base.html' %}
 
-{% block title %}Regjistrohu - Platforma e Mësimit në Distancë{% endblock %}
+{% block form_page_title %}Regjistrohu{% endblock %}
 
-{% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow animate__animated animate__fadeIn">
-                <div class="card-body">
-                    <h2 class="text-center mb-4"><i class="fas fa-user-plus me-2"></i>Regjistrohu</h2>
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                    <form method="post" novalidate>
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                {{ field.errors }}
-                                {{ field }}
-                                {% if field.help_text %}
-                                    <div class="form-text">{{ field.help_text }}</div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="fas fa-user-plus me-2"></i>Regjistrohu
-                        </button>
-                    </form>
-                    <div class="text-center mt-3">
-                        <p>Keni një llogari? <a href="{% url 'login' %}">Identifikohu</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{% block form_heading %}<i class="fas fa-user-plus me-2"></i>Regjistrohu{% endblock %}
+
+{% block submit_button %}<i class="fas fa-user-plus me-2"></i>Regjistrohu{% endblock %}
+
+{% block form_footer %}
+<p>Keni një llogari? <a href="{% url 'login' %}">Identifikohu</a></p>
 {% endblock %}

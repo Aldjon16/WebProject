@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% block form_page_title %}{% endblock %} - Platforma e Mësimit në Distancë{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow animate__animated animate__fadeIn">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">{% block form_heading %}{% endblock %}</h2>
+                    {% include '_messages.html' %}
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% include '_form_fields.html' %}
+                        <button type="submit" class="btn btn-primary w-100">
+                            {% block submit_button %}{% endblock %}
+                        </button>
+                    </form>
+                    <div class="text-center mt-3">
+                        {% block form_footer %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
