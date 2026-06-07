@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -11,7 +12,7 @@ class CourseListView(ListView):
     context_object_name = 'courses'
 
 
-class CourseDetailView(DetailView):
+class CourseDetailView(LoginRequiredMixin, DetailView):
     model = Course
     template_name = 'course_detail.html'
     context_object_name = 'course'
