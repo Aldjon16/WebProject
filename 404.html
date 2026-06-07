@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}404 - Faqja nuk u gjet{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4 text-muted">404</h1>
+    <p class="lead">Faqja që kërkoni nuk u gjet.</p>
+    <a href="{% url 'course_list' %}" class="btn btn-primary mt-3">
+        Kthehu te Kurset
+    </a>
+</div>
+{% endblock %}

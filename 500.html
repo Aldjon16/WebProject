@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}500 - Gabim i Serverit{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4 text-muted">500</h1>
+    <p class="lead">Ndodhi nje gabim ne server. Ju lutem provoni perseri me vone.</p>
+    <a href="{% url 'course_list' %}" class="btn btn-primary mt-3">
+        Kthehu te Kurset
+    </a>
+</div>
+{% endblock %}
