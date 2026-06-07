@@ -1,54 +1,101 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import timezone
+from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from extensions import db
 
-class Course(models.Model):
-    CATEGORY_CHOICES = [
-        ('programim', 'Programim'),
-        ('design', 'Design'),
-        ('business', 'Business'),
-    ]
 
-    LEVEL_CHOICES = [
-        ('fillestar', 'Fillestar'),
-        ('mesatar', 'Mesatar'),
-        ('avancuar', 'Avancuar'),
-    ]
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
 
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
-    level = models.CharField(max_length=50, choices=LEVEL_CHOICES)
-    duration = models.PositiveIntegerField(help_text="Kohëzgjatja në orë")
-    image = models.ImageField(upload_to='course_images/', null=True, blank=True)
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses')
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(256), nullable=False)
+    role = db.Column(db.String(20), nullable=False, default='customer')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    class Meta:
-        ordering = ['-created_at']
+    professional = db.relationship('Professional', backref='user', uselist=False,
+                                   cascade='all, delete-orphan')
+    reviews = db.relationship('Review', backref='author', lazy='dynamic',
+                              cascade='all, delete-orphan')
 
-    def __str__(self):
-        return self.title
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
-    enrolled_courses = models.ManyToManyField(Course, through='Enrollment')
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
-    def __str__(self):
-        return f"{self.name} {self.surname}"
+    def __repr__(self):
+        return f'<User {self.username}>'
 
-class Enrollment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    date_enrolled = models.DateTimeField(auto_now_add=True)
-    completed = models.BooleanField(default=False)
-    progress = models.PositiveIntegerField(default=0)
 
-    class Meta:
-        unique_together = ['student', 'course']
+class Professional(db.Model):
+    __tablename__ = 'professionals'
 
-    def __str__(self):
-        return f"{self.student} - {self.course}"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    first_name = db.Column(db.String(80), nullable=False)
+    last_name = db.Column(db.String(80), nullable=False)
+    category = db.Column(db.String(100), nullable=False)
+    city = db.Column(db.String(100), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    description = db.Column(db.Text, default='')
+    experience = db.Column(db.String(50), default='')
+    image = db.Column(db.String(256), default='default.png')
+    approved = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    reviews = db.relationship('Review', backref='professional', lazy='dynamic',
+                              cascade='all, delete-orphan')
+
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+    @property
+    def average_rating(self):
+        reviews = self.reviews.all()
+        if not reviews:
+            return 0
+        return round(sum(r.rating for r in reviews) / len(reviews), 1)
+
+    @property
+    def review_count(self):
+        return self.reviews.count()
+
+    def __repr__(self):
+        return f'<Professional {self.full_name}>'
+
+
+CATEGORIES = [
+    ('hidraulik', 'Hidraulik'),
+    ('elektricist', 'Elektricist'),
+    ('mekanik', 'Mekanik'),
+    ('piktor', 'Piktor'),
+    ('fotograf', 'Fotograf'),
+    ('programues', 'Programues'),
+    ('kondicionim', 'Teknik Kondicionimi'),
+    ('pastrim', 'Shërbime Pastrimi'),
+    ('mobileri', 'Specialist Mobiliesh'),
+]
+
+CITIES = [
+    'Tiranë', 'Durrës', 'Vlorë', 'Elbasan', 'Shkodër',
+    'Fier', 'Korçë', 'Berat', 'Lushnjë', 'Pogradec',
+    'Kavajë', 'Gjirokastër', 'Sarandë', 'Lezhë', 'Kukës',
+    'Peshkopi', 'Burrel', 'Përmet', 'Tepelenë', 'Gramsh',
+]
+
+
+class Review(db.Model):
+    __tablename__ = 'reviews'
+
+    id = db.Column(db.Integer, primary_key=True)
+    professional_id = db.Column(db.Integer, db.ForeignKey('professionals.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.Text, default='')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Review {self.rating}* by User {self.user_id}>'

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Kërko Profesionistë - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">
+    {% if category_name is defined and category_name %}
+        {{ category_name }}
+    {% else %}
+        Kërko Profesionistë
+    {% endif %}
+</h2>
+
+<!-- Search & Filter Form -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form action="{{ url_for('main.search') }}" method="GET" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="q" value="{{ query }}"
+                       placeholder="Emër ose profesion...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="category">
+                    <option value="">Të gjitha kategoritë</option>
+                    {% for slug, name in categories %}
+                    <option value="{{ slug }}" {% if category == slug %}selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="city">
+                    <option value="">Të gjitha qytetet</option>
+                    {% set cities = ['Tiranë', 'Durrës', 'Vlorë', 'Elbasan', 'Shkodër', 'Fier', 'Korçë', 'Berat', 'Lushnjë', 'Pogradec', 'Kavajë', 'Gjirokastër', 'Sarandë', 'Lezhë', 'Kukës'] %}
+                    {% for c in cities %}
+                    <option value="{{ c }}" {% if city == c %}selected{% endif %}>{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search me-1"></i> Kërko
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Results -->
+{% if professionals %}
+<p class="text-muted mb-3">{{ professionals|length }} profesionistë u gjetën</p>
+<div class="row g-4">
+    {% for prof in professionals %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card professional-card h-100 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="{{ url_for('static', filename='images/profiles/' + prof.image) }}"
+                         alt="{{ prof.full_name }}"
+                         class="rounded-circle me-3 profile-img-sm">
+                    <div>
+                        <h5 class="mb-0">{{ prof.full_name }}</h5>
+                        <small class="text-muted">{{ dict(categories).get(prof.category, prof.category) }}</small>
+                    </div>
+                </div>
+                <p class="mb-1"><i class="fas fa-map-marker-alt me-2 text-primary"></i>{{ prof.city }}</p>
+                <p class="mb-1"><i class="fas fa-phone me-2 text-primary"></i>{{ prof.phone }}</p>
+                <div class="mb-2">
+                    {% for i in range(5) %}
+                        {% if i < prof.average_rating|int %}
+                            <i class="fas fa-star text-warning"></i>
+                        {% else %}
+                            <i class="far fa-star text-warning"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <small class="text-muted">({{ prof.review_count }})</small>
+                </div>
+                {% if prof.description %}
+                <p class="text-muted small mb-2">{{ prof.description[:100] }}{% if prof.description|length > 100 %}...{% endif %}</p>
+                {% endif %}
+                <a href="{{ url_for('professional.view_profile', prof_id=prof.id) }}"
+                   class="btn btn-outline-primary btn-sm">Shiko Profilin</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+    <h4 class="text-muted">Nuk u gjet asnjë profesionist</h4>
+    <p class="text-muted">Provoni të ndryshoni filtrat e kërkimit.</p>
+</div>
+{% endif %}
+{% endblock %}

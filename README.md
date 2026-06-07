@@ -1,115 +1,114 @@
-# 📚 E-Learning Platform (Django)
+# GjejMjeshtrin
 
-Një platformë **E-Learning** e ndërtuar me **Django**, e fokusuar në edukimin e fëmijëve.  
-Përdoruesit mund të regjistrohen, të kyçen dhe të shikojnë kurset në mënyrë të sigurt.
-
----
-
-## 🚀 Funksionalitete
-
-- ✅ Regjistrim & Login i përdoruesve
-- 🔐 Autentikim me Django Auth
-- 📚 Listë kursesh
-- 👀 Detaje kursi (vetëm për përdorues të kyçur)
-- 🚪 Logout i sigurt
-- 🎨 UI me Bootstrap 5
-- 🌍 Gjuhë: Shqip 🇦🇱
+Platformë web për të lidhur klientët me profesionistë lokalë në Shqipëri — hidraulikë, elektricistë, mekanikë, piktorë, fotografë, programues, dhe shërbyes të tjerë.
 
 ---
 
-## 🛠 Teknologjitë
+## Funksionalitete
 
-- Python 3.12
-- Django 5.2
-- SQLite
-- Bootstrap 5
-- HTML / CSS
-
----
-
-## 📂 Struktura e Projektit
-
-PythonProject1/
-│
-├── e_learning/ # Project settings
-├── edukimi_femijeve/ # Main app
-│ ├── templates/
-│ ├── views.py
-│ ├── urls.py
-│ └── models.py
-│
-├── static/
-│ └── images/
-│
-├── manage.py
-├── db.sqlite3
-└── README.md
-
+- Regjistrim & Autentikim (Klient / Profesionist / Admin)
+- Profil profesional me foto, përshkrim, eksperiencë
+- Kërkim sipas emrit, profesionit, qytetit
+- Vlerësime dhe komente (1–5 yje)
+- Paneli i profesionistit (ndrysho profilin, shiko vlerësimet)
+- Paneli administrativ (menaxho përdorues, aprovo profile, menaxho kategori)
 
 ---
 
-## ▶️ Si ta nisësh projektin lokalisht
+## Teknologjitë
 
-### 1️⃣ Klono projektin
-```bash
-git clone https://github.com/USERNAME/e-learning-django.git
-cd e-learning-django
-2️⃣ Krijo virtual environment
-python -m venv .venv
-Aktivizo:
-
-Windows:
-
-.venv\Scripts\activate
-3️⃣ Instalo varësitë
-pip install django
-4️⃣ Migro databazën
-python manage.py migrate
-5️⃣ Krijo superuser (opsionale)
-python manage.py createsuperuser
-6️⃣ Nise serverin
-python manage.py runserver
-👉 Hape në browser:
-http://127.0.0.1:8000/
-
-🔐 Autentikimi
-Kurset shfaqen për të gjithë
-
-Detajet e kursit hapen vetëm pasi të kyçesh
-
-Login / Logout përdorin Django built-in auth
-
-📌 Statusi i Projektit
-🟢 Në zhvillim
-🔜 Plane:
-
-Regjistrim në kurse
-
-Video lessons
-
-Dashboard për studentë
-
-Deploy online
-
-👤 Autor
-Aldjon Kacollja
-Eneriko Troka 
-Zenel Rrugeja
-Alek Ahmeti
-Daniel Basha[README.md](README.md)
-Projekt edukativ me Django & Python
-
-📄 Licenca
-Ky projekt është për qëllime mësimore.
-
+- **Backend:** Python, Flask
+- **Databaza:** SQLite (SQLAlchemy ORM)
+- **Frontend:** HTML, CSS, JavaScript, Bootstrap 5
+- **Imazhe:** Pillow
 
 ---
 
-# 📤 SHTO README NË GITHUB
-
-Pas krijimit të README:
+## Instalimi
 
 ```bash
-git add README.md
-git commit -m "Add professional README"
-git push
+# Klono projektin
+git clone https://github.com/Aldjon16/WebProject.git
+cd WebProject
+
+# Krijo virtual environment
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate   # Windows
+
+# Instalo varësitë
+pip install -r requirements.txt
+
+# Nis serverin
+python app.py
+```
+
+Hape në browser: http://127.0.0.1:5000/
+
+---
+
+## Llogaritë Default
+
+| Roli  | Emri | Fjalëkalimi |
+|-------|------|-------------|
+| Admin | admin | admin123   |
+
+---
+
+## Struktura e Projektit
+
+```
+WebProject/
+├── app.py              # Flask app factory
+├── config.py           # Konfigurimet
+├── models.py           # Modelet e databazës
+├── requirements.txt    # Varësitë Python
+├── routes/
+│   ├── auth.py         # Autentikim (login, register, logout)
+│   ├── main.py         # Kryefaqja, kërkim
+│   ├── professional.py # Profili profesional (CRUD)
+│   ├── review.py       # Vlerësimet
+│   └── admin.py        # Paneli administrativ
+├── templates/
+│   ├── base.html
+│   ├── auth/
+│   ├── main/
+│   ├── professional/
+│   └── admin/
+└── static/
+    ├── css/style.css
+    ├── js/main.js
+    └── images/profiles/
+```
+
+---
+
+## Kategoritë
+
+| Kodi | Emri |
+|------|------|
+| hidraulik | Hidraulik |
+| elektricist | Elektricist |
+| mekanik | Mekanik |
+| piktor | Piktor |
+| fotograf | Fotograf |
+| programues | Programues |
+| kondicionim | Teknik Kondicionimi |
+| pastrim | Shërbime Pastrimi |
+| mobileri | Specialist Mobiliesh |
+
+---
+
+## Autorë
+
+- Aldjon Kacollja
+- Eneriko Troka
+- Zenel Rrugeja
+- Alek Ahmeti
+- Daniel Basha
+
+---
+
+## Licenca
+
+Projekt edukativ — të gjitha të drejtat e rezervuara.

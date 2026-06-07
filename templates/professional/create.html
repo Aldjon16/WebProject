@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Krijo Profilin - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h3 class="mb-4">
+                    <i class="fas fa-user-plus text-primary"></i> Krijo Profilin Profesional
+                </h3>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">Emri *</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Mbiemri *</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="category" class="form-label">Profesioni *</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">Zgjidhni profesionin</option>
+                                {% for slug, name in categories %}
+                                <option value="{{ slug }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">Qyteti *</label>
+                            <select class="form-select" id="city" name="city" required>
+                                <option value="">Zgjidhni qytetin</option>
+                                {% for c in cities %}
+                                <option value="{{ c }}">{{ c }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Numri i telefonit *</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required
+                                   placeholder="+355 6X XXX XXXX">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="experience" class="form-label">Eksperienca</label>
+                            <input type="text" class="form-control" id="experience" name="experience"
+                                   placeholder="p.sh. 5 vjet">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Përshkrimi</label>
+                        <textarea class="form-control" id="description" name="description" rows="4"
+                                  placeholder="Përshkruani shërbimet tuaja..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Foto e Profilit</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        <small class="text-muted">Formatet e lejuara: PNG, JPG, JPEG, GIF, WEBP (max 16MB)</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check me-1"></i> Krijo Profilin
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

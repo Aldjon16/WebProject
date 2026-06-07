@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Paneli Im - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Profile Summary -->
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <img src="{{ url_for('static', filename='images/profiles/' + professional.image) }}"
+                     alt="{{ professional.full_name }}"
+                     class="rounded-circle mb-3 profile-img">
+                <h4>{{ professional.full_name }}</h4>
+                <p class="text-muted">{{ dict(categories).get(professional.category, professional.category) }}</p>
+                <p><i class="fas fa-map-marker-alt me-1"></i> {{ professional.city }}</p>
+                <p><i class="fas fa-phone me-1"></i> {{ professional.phone }}</p>
+
+                {% if professional.approved %}
+                <span class="badge bg-success"><i class="fas fa-check me-1"></i>Aprovuar</span>
+                {% else %}
+                <span class="badge bg-warning text-dark"><i class="fas fa-clock me-1"></i>Në pritje</span>
+                {% endif %}
+
+                <div class="mt-3">
+                    <a href="{{ url_for('professional.edit_profile') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-edit me-1"></i> Ndrysho Profilin
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <h6 class="card-title">Statistika</h6>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Vlerësimi mesatar:</span>
+                    <span class="fw-bold text-warning">
+                        {{ professional.average_rating }} <i class="fas fa-star"></i>
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Total vlerësimesh:</span>
+                    <span class="fw-bold">{{ professional.review_count }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="fas fa-star me-2"></i>Vlerësimet e Mia</h5>
+            </div>
+            <div class="card-body">
+                {% if reviews %}
+                    {% for review in reviews %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>{{ review.author.username }}</strong>
+                            <small class="text-muted">{{ review.created_at.strftime('%d/%m/%Y') }}</small>
+                        </div>
+                        <div class="mb-1">
+                            {% for i in range(5) %}
+                                {% if i < review.rating %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star text-warning"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if review.comment %}
+                        <p class="mb-0 text-muted">{{ review.comment }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">Ende nuk keni asnjë vlerësim.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set categories = [('hidraulik', 'Hidraulik'), ('elektricist', 'Elektricist'), ('mekanik', 'Mekanik'), ('piktor', 'Piktor'), ('fotograf', 'Fotograf'), ('programues', 'Programues'), ('kondicionim', 'Teknik Kondicionimi'), ('pastrim', 'Shërbime Pastrimi'), ('mobileri', 'Specialist Mobiliesh')] %}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Regjistrohu - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h3 class="text-center mb-4">
+                    <i class="fas fa-user-plus text-primary"></i> Regjistrohu
+                </h3>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Emri i përdoruesit</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Fjalëkalimi</label>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Konfirmo fjalëkalimin</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Roli</label>
+                        <div class="d-flex gap-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="role_customer" value="customer" checked>
+                                <label class="form-check-label" for="role_customer">
+                                    <i class="fas fa-user me-1"></i> Klient
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="role_professional" value="professional">
+                                <label class="form-check-label" for="role_professional">
+                                    <i class="fas fa-briefcase me-1"></i> Profesionist
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Regjistrohu</button>
+                </form>
+                <hr>
+                <p class="text-center mb-0">
+                    Keni llogari? <a href="{{ url_for('auth.login') }}">Kyçu këtu</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

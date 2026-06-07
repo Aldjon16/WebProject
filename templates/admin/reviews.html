@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Menaxho Vlerësimet - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-star text-primary me-2"></i>Vlerësimet</h2>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i> Kthehu
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Profesionisti</th>
+                    <th>Autori</th>
+                    <th>Vlerësimi</th>
+                    <th>Komenti</th>
+                    <th>Data</th>
+                    <th>Veprime</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td>{{ review.id }}</td>
+                    <td>{{ review.professional.full_name }}</td>
+                    <td>{{ review.author.username }}</td>
+                    <td>
+                        {% for i in range(5) %}
+                            {% if i < review.rating %}
+                                <i class="fas fa-star text-warning"></i>
+                            {% else %}
+                                <i class="far fa-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ review.comment[:50] }}{% if review.comment|length > 50 %}...{% endif %}</td>
+                    <td>{{ review.created_at.strftime('%d/%m/%Y') }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin.delete_review', review_id=review.id) }}"
+                              class="d-inline" onsubmit="return confirm('Jeni i sigurt?')">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

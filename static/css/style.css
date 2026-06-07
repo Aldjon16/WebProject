@@ -1,0 +1,164 @@
+/* GjejMjeshtrin - Custom Styles */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-color: #64748b;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+    border-radius: 12px;
+    padding: 3rem 1rem;
+}
+
+/* Category Cards */
+.category-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Professional Cards */
+.professional-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.professional-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Profile Images */
+.profile-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 3px solid #e2e8f0;
+}
+
+.profile-img-sm {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+}
+
+.profile-img-lg {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 4px solid #e2e8f0;
+}
+
+/* Star Rating Input */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ddd;
+    transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #fbbf24;
+}
+
+/* Cards */
+.card {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: white !important;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 8px;
+}
+
+/* Table */
+.table th {
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 1rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .profile-img-lg {
+        width: 100px;
+        height: 100px;
+    }
+}

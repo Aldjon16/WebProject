@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Ndrysho Profilin - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h3 class="mb-4">
+                    <i class="fas fa-edit text-primary"></i> Ndrysho Profilin
+                </h3>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">Emri *</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name"
+                                   value="{{ professional.first_name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Mbiemri *</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name"
+                                   value="{{ professional.last_name }}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="category" class="form-label">Profesioni *</label>
+                            <select class="form-select" id="category" name="category" required>
+                                {% for slug, name in categories %}
+                                <option value="{{ slug }}" {% if professional.category == slug %}selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">Qyteti *</label>
+                            <select class="form-select" id="city" name="city" required>
+                                {% for c in cities %}
+                                <option value="{{ c }}" {% if professional.city == c %}selected{% endif %}>{{ c }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Numri i telefonit *</label>
+                            <input type="tel" class="form-control" id="phone" name="phone"
+                                   value="{{ professional.phone }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="experience" class="form-label">Eksperienca</label>
+                            <input type="text" class="form-control" id="experience" name="experience"
+                                   value="{{ professional.experience }}">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Përshkrimi</label>
+                        <textarea class="form-control" id="description" name="description" rows="4">{{ professional.description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Foto e Profilit</label>
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <img src="{{ url_for('static', filename='images/profiles/' + professional.image) }}"
+                                 alt="Current" class="rounded-circle profile-img-sm">
+                            <span class="text-muted">Foto aktuale</span>
+                        </div>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        <small class="text-muted">Lëreni bosh nëse nuk doni të ndryshoni foton.</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Ruaj Ndryshimet
+                        </button>
+                        <a href="{{ url_for('professional.dashboard') }}" class="btn btn-secondary">Anulo</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="fas fa-shield-alt text-primary me-2"></i>Paneli i Administratorit</h2>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white shadow">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-2x mb-2"></i>
+                <h3>{{ users_count }}</h3>
+                <p class="mb-0">Përdorues</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white shadow">
+            <div class="card-body text-center">
+                <i class="fas fa-briefcase fa-2x mb-2"></i>
+                <h3>{{ professionals_count }}</h3>
+                <p class="mb-0">Profesionistë</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark shadow">
+            <div class="card-body text-center">
+                <i class="fas fa-clock fa-2x mb-2"></i>
+                <h3>{{ pending_count }}</h3>
+                <p class="mb-0">Në Pritje</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white shadow">
+            <div class="card-body text-center">
+                <i class="fas fa-star fa-2x mb-2"></i>
+                <h3>{{ reviews_count }}</h3>
+                <p class="mb-0">Vlerësime</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <a href="{{ url_for('admin.manage_users') }}" class="text-decoration-none">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                    <h5>Menaxho Përdoruesit</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{{ url_for('admin.manage_professionals') }}" class="text-decoration-none">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-briefcase fa-3x text-success mb-3"></i>
+                    <h5>Menaxho Profesionistët</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{{ url_for('admin.manage_reviews') }}" class="text-decoration-none">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-star fa-3x text-warning mb-3"></i>
+                    <h5>Menaxho Vlerësimet</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

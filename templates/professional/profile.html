@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}{{ professional.full_name }} - GjejMjeshtrin{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Profile Info -->
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <img src="{{ url_for('static', filename='images/profiles/' + professional.image) }}"
+                     alt="{{ professional.full_name }}"
+                     class="rounded-circle mb-3 profile-img-lg">
+                <h3>{{ professional.full_name }}</h3>
+
+                {% set cat_names = {'hidraulik': 'Hidraulik', 'elektricist': 'Elektricist', 'mekanik': 'Mekanik', 'piktor': 'Piktor', 'fotograf': 'Fotograf', 'programues': 'Programues', 'kondicionim': 'Teknik Kondicionimi', 'pastrim': 'Shërbime Pastrimi', 'mobileri': 'Specialist Mobiliesh'} %}
+
+                <p class="text-primary fw-bold mb-2">
+                    <i class="fas fa-briefcase me-1"></i>
+                    {{ cat_names.get(professional.category, professional.category) }}
+                </p>
+
+                <div class="mb-3">
+                    {% for i in range(5) %}
+                        {% if i < professional.average_rating|int %}
+                            <i class="fas fa-star text-warning"></i>
+                        {% else %}
+                            <i class="far fa-star text-warning"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <span class="ms-2">({{ professional.review_count }} vlerësime)</span>
+                </div>
+
+                <ul class="list-unstyled text-start">
+                    <li class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2 text-primary"></i>{{ professional.city }}
+                    </li>
+                    <li class="mb-2">
+                        <a href="tel:{{ professional.phone }}" class="text-decoration-none">
+                            <i class="fas fa-phone me-2 text-primary"></i>{{ professional.phone }}
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-envelope me-2 text-primary"></i>{{ professional.user.email }}
+                    </li>
+                    {% if professional.experience %}
+                    <li class="mb-2">
+                        <i class="fas fa-clock me-2 text-primary"></i>{{ professional.experience }} eksperiencë
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <a href="tel:{{ professional.phone }}" class="btn btn-primary w-100 mt-2">
+                    <i class="fas fa-phone me-2"></i>Telefono Tani
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Description & Reviews -->
+    <div class="col-md-8">
+        {% if professional.description %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Rreth Meje</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ professional.description }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Reviews Section -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-star me-2"></i>Vlerësimet</h5>
+                <span class="badge bg-primary">{{ professional.review_count }}</span>
+            </div>
+            <div class="card-body">
+                {% if reviews %}
+                    {% for review in reviews %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong><i class="fas fa-user-circle me-1"></i>{{ review.author.username }}</strong>
+                            <small class="text-muted">{{ review.created_at.strftime('%d/%m/%Y') }}</small>
+                        </div>
+                        <div class="mb-1">
+                            {% for i in range(5) %}
+                                {% if i < review.rating %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star text-warning"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if review.comment %}
+                        <p class="mb-0">{{ review.comment }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">Ende nuk ka vlerësime për këtë profesionist.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Add Review Form -->
+        {% if current_user.is_authenticated and current_user.role == 'customer' %}
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="fas fa-pen me-2"></i>Lini një Vlerësim</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('review.add_review', prof_id=professional.id) }}">
+                    <div class="mb-3">
+                        <label class="form-label">Vlerësimi juaj</label>
+                        <div class="star-rating">
+                            {% for i in range(5, 0, -1) %}
+                            <input type="radio" name="rating" value="{{ i }}" id="star{{ i }}" required>
+                            <label for="star{{ i }}"><i class="fas fa-star"></i></label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Komenti (opsional)</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3"
+                                  placeholder="Shkruani përvojën tuaj..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-1"></i> Dërgo Vlerësimin
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% elif not current_user.is_authenticated %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <a href="{{ url_for('auth.login') }}">Kyçuni</a> për të lënë një vlerësim.
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
