@@ -93,10 +93,7 @@ Deploy online
 
 👤 Autor
 Aldjon Kacollja
-Eneriko Troka 
-Zenel Rrugeja
-Alek Ahmeti
-Daniel Basha[README.md](README.md)
+[README.md](README.md)
 Projekt edukativ me Django & Python
 
 📄 Licenca
